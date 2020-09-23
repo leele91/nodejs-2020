@@ -10,6 +10,7 @@
             cout << n2 - n1 << endl);
         let sum ()
         onsole.log(number, newNumber);
+        
 }
 rl.close();
 });
