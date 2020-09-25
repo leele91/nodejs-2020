@@ -19,5 +19,5 @@ rl.on('line', function(line) {
     }
 
     //끝날때 반드시 처리해야함
-    rl.close();
+    rl.close(); // 종료시키는 것
 });
