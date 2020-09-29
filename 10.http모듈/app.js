@@ -4,7 +4,6 @@ const qs = require('querystring');
 const fs = require('fs');
 const view = require('./view/index');
 const template = require('./view/template');
-const { encode } = require('punycode');
 
 http.createServer(function (req, res) {
     let pathname = url.parse(req.url).pathname;
@@ -16,7 +15,8 @@ http.createServer(function (req, res) {
             if (query.id === undefined) {
                 fs.readdir('data', function (error, filelist) {
                     let list = template.listGen(filelist);
-                    let content = template.HOME_CONTENTS;
+                    let content = template.HOME_CONTENTS; // 텍스트 영역
+                    content = content.replace(/\n/g, '<br>')
                     let control = template.buttonGen();
                     let html = view.index('Web 기술', list, content, control); // 웹화면의 탭 부분
                     res.end(html);
@@ -28,6 +28,7 @@ http.createServer(function (req, res) {
                     let control = template.buttonGen(title);
                     let filename = 'data/' + title + '.txt';
                     fs.readFile(filename, 'utf8', (error, buffer) => {
+                        buffer=buffer.replace(/\n/g, '<br>')
                         let html = view.index(title, list, buffer, control);
                         res.end(html);
                     });
@@ -53,11 +54,8 @@ http.createServer(function (req, res) {
                 // console.log(param.subject, param.description); // 폼에 있던 이름이 여기로 연결 par~.name
                 let filepath = 'data/' + param.subject + '.txt';
                 fs.writeFile(filepath, param.description, error => {
-                    let encoded = encodeURI(`/?id=${param.subject}`); // encoded 이 함수를 넣어야 한글입력이 됨
-                    console.log(encoded);
-                    res.writeHead(302, { 'Location': encoded }); // 방금 집어넣었던 pa~.su~ct로 보내주는것
+                    res.writeHead(302, { 'Location': `/?id=${param.subject}` }); // 방금 집어넣었던 pa~.su~ct로 보내주는것
                     res.end();
-
                 })
             });
             break;
@@ -108,22 +106,15 @@ http.createServer(function (req, res) {
                 // console.log(param.original, param.subject, param.description); // 폼에 있던 이름이 여기로 연결 par~.name
                 let filepath = 'data/' + param.original + '.txt';
                 fs.writeFile(filepath, param.description, error => {
-                    let encoded = encodeURI(`/?id=${param.subject}`);
-                    // console.log(encoded);
-                    /*  if (param.original !== param.subject) {
-                        fs.rename(filepath, `data/${param.subject}.txt`, error =>{
-                            res.writeHead(302, {'Location': encoded});
-                            res.end();
-                        });
-                        } else {
-                        res.writeHead(302, { 'Location': encoded});
-                        res.end();
-                      } */
                     if (param.original !== param.subject) {
-                        fs.renameSync(filepath, `data/${param.subject}.txt`);
+                        fs.rename(filepath, `data/${param.subject}.txt`, error =>{
+                            res.writeHead(302, {'Location': `/?id=${param.subject}`});
+                        res.end();
+                        });
+                    } else {
+                        res.writeHead(302, { 'Location': `/?id=${param.subject}` });
+                        res.end();
                     }
-                    res.writeHead(302, { 'Location': encoded });
-                    res.end();
                 });
             });
             break;
