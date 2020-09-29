@@ -20,7 +20,7 @@ http.createServer(function (req, res) {
                     res.end(html);
                 });
             } else { // id(목록)_부분
-                fs.readdir('data', function (error, filelist) {
+                fs.readdir('data', function(error, filelist) {
                     let list = template.listGen(filelist);
                     let title = query.id;
                     let control = template.buttonGen(title);
@@ -31,30 +31,6 @@ http.createServer(function (req, res) {
                     });
                 });
             }
-            break;
-        case '/create': // 사용자에게 전송할수있는 입력 폼 생성 _텍스트 상자
-            fs.readdir('data', function (error, filelist) {
-                let list = template.listGen(filelist);
-                let content = template.createForm();
-                let control = template.buttonGen();
-                let html = view.index('글 생성', list, content, control);
-                res.end(html);
-            });
-            break;
-        case '/create_proc': // 여기부터 ~
-            let body = '';
-            req.on('data', function (data) {
-                body += data;
-            })
-            req.on('end', function () {
-                let param = qs.parse(body); // 여기까지 사용자가 입력한 데이터를 가져옴
-                // console.log(param.subject, param.description); // 폼에 있던 이름이 여기로 연결 par~.name
-                let filepath = 'data/' + param.subject + '.txt';
-                fs.writeFile(filepath, param.description, error => {
-                    res.writeHead(302, { 'Location': `/?id=${param.subject}`}); // 방금 집어넣었던 pa~.su~ct로 보내주는것
-                    res.end();
-                })
-            });
             break;
         default:
             res.writeHead(404);

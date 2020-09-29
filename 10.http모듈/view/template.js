@@ -29,5 +29,25 @@ module.exports = {
             <button onclick="location.href='/delete?id=${title}'">삭제</button>
             `;
         }
+    },
+    createForm: function() {    // 입력 폼
+        return `
+        <form action="/create_proc" method="post">
+        <table>
+            <tr>
+                <td><label>제목</label></td>
+                <td><input type="text" name="subject"></td>
+            </tr>
+            <tr>
+                <td><label>내용</label></td>
+                <td><textarea name="description" cols="40" row="5"></textarea></td>
+            </tr>
+            <tr>
+            <td colspan="2" style="text-align:center;"><input type="submit" value="생성"></td>
+            </tr>
+        </table>
+        
+        </form>
+        `;
     }
 }
