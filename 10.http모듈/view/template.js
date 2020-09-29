@@ -15,7 +15,7 @@ module.exports = {
         list += '</ul>\n';
         return list;
     },
-    buttonGen: function(title) {
+    buttonGen: function (title) {
         if (title === undefined) { // 홈화면 쪽 버튼
             return `
             <button onclick ="location.href='/create'">추가</button>
@@ -30,7 +30,7 @@ module.exports = {
             `;
         }
     },
-    createForm: function() {    // 입력 폼
+    createForm: function () {    // 입력 폼
         return `
         <form action="/create_proc" method="post">
         <table>
@@ -43,11 +43,20 @@ module.exports = {
                 <td><textarea name="description" cols="40" row="5"></textarea></td>
             </tr>
             <tr>
-            <td colspan="2" style="text-align:center;"><input type="submit" value="생성"></td>
+            <td colspan="2" style="text-align:center;">
+            <input type="submit" value="생성"></td>
             </tr>
         </table>
-        
         </form>
         `;
+    },
+    deleteForm: function(subject) {    //삭제 폼
+        return `
+            ${subject}을/를 삭제하시겠습니까?
+            <form action="/delete_proc" method="post">
+            <input type="hidden" name="subject" value="${subject}">
+            <input type="submit" value="삭제"></td>
+            </form>
+            `;
     }
 }
