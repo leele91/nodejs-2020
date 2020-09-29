@@ -40,7 +40,7 @@ module.exports = {
             </tr>
             <tr>
                 <td><label>내용</label></td>
-                <td><textarea name="description" cols="40" row="5"></textarea></td>
+                <td><textarea name="description" cols="40" rows="5"></textarea></td>
             </tr>
             <tr>
             <td colspan="2" style="text-align:center;">
@@ -70,7 +70,7 @@ module.exports = {
             </tr>
             <tr>
                 <td><label>내용</label></td>
-                <td><textarea name="description" cols="40" row="5">${description}</textarea></td>
+                <td><textarea name="description" cols="40" rows="5">${description}</textarea></td>
             </tr>
             <tr>
             <td colspan="2" style="text-align:center;">
