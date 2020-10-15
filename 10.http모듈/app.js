@@ -6,7 +6,7 @@ const view = require('./view/index');
 const template = require('./view/template');
 
 http.createServer(function (req, res) {
-    let pathname = url.parse(req.url).pathname;
+    let pathname = url.parse(req.url).pathname; 
     let query = url.parse(req.url, true).query;
     let body;
     console.log(pathname, query.id) // 확인용
